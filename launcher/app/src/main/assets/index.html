@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROCASTIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--accent:#E2B44B;--bg:#0B1712;--card:#12241B;--line:#1E3328;--line2:#2E4A3B;--muted:#A9B4AC}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);overflow:hidden}
+#stage{position:absolute;top:0;left:0;width:1920px;height:1080px;transform-origin:0 0;padding:64px 96px;
+  color:#EDEFE9;font-family:Inter,sans-serif;display:flex;flex-direction:column;gap:40px}
+.px{font-family:Silkscreen,monospace}
+header{display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:20px}
+.logo{width:56px;height:56px;background:var(--accent);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700}
+.xp{width:280px;display:flex;flex-direction:column;gap:10px}
+.bar{height:12px;background:var(--line);border:2px solid var(--line2)}
+.bar div{height:100%;width:62%;background:var(--accent)}
+.hero{display:flex;gap:32px}
+.hero h1{margin:0;font-size:72px;letter-spacing:-1px}
+.mission{width:620px;padding:28px 32px;background:var(--card);border:2px solid var(--line2);display:flex;flex-direction:column;gap:14px}
+.sirio{display:flex;align-items:flex-end;gap:24px;padding-top:6px}
+.bubble{font-size:24px;color:#C9D2CB;padding:12px 16px;background:var(--bg);border:2px solid var(--line2)}
+h2{margin:0 0 24px;font-size:22px;font-weight:400;color:var(--muted);letter-spacing:2px}
+.grid{display:grid;gap:28px}
+.nav{background:var(--card);border:4px solid var(--line);color:inherit;font:inherit;text-align:left;cursor:pointer;outline:none;transition:transform .12s}
+.nav.focus{background:var(--line);border-color:var(--accent);transform:scale(1.06);box-shadow:0 0 0 6px var(--bg),0 0 0 8px #E2B44B33}
+.tile{height:196px;padding:26px;display:flex;flex-direction:column;justify-content:space-between}
+.tile .m{font-size:56px}
+.tile .n{font-size:24px;font-weight:600}
+.short{height:104px;padding:20px 28px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.short.focus{transform:scale(1.03)}
+.short b{font-size:24px}.short span{font-size:18px;color:var(--muted)}
+footer{margin-top:auto;display:flex;gap:40px;font-size:18px;color:#8C9A90}
+#all{position:absolute;inset:0;background:var(--bg);padding:64px 96px;display:none;flex-direction:column;gap:32px}
+#all.open{display:flex}
+#allGrid{grid-template-columns:repeat(5,minmax(0,1fr))}
+#allGrid .nav{height:120px;padding:20px 24px;font-size:24px;font-weight:600}
+</style>
+</head>
+<body>
+<div id="stage">
+  <header>
+    <div class="brand">
+      <div class="logo px">P</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span class="px" style="font-size:30px;letter-spacing:2px;color:var(--accent)">PROCASTIA.exe</span>
+        <span style="font-size:18px;color:var(--muted)">Misión: tu mejor versión</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:48px">
+      <div class="xp">
+        <div class="px" style="display:flex;justify-content:space-between;font-size:18px"><span style="color:var(--accent)">NIVEL 07</span><span style="color:var(--muted)">XP</span></div>
+        <div class="bar"><div></div></div>
+      </div>
+      <span id="clock" style="font-size:44px;font-weight:600">--:--</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
+      <h1 id="greet">Hola, Max</h1>
+      <p style="margin:0;font-size:26px;color:var(--muted)">Sin anuncios. Sin recomendaciones. Solo lo tuyo.</p>
+    </div>
+    <div class="mission">
+      <span class="px" style="font-size:18px;color:var(--accent)">MISIÓN DEL DÍA</span>
+      <span id="mission" style="font-size:30px;font-weight:600">Grabar el video del Fire TV</span>
+      <div class="sirio">
+        <img src="sirio.png" alt="Sirio, gato pelón rosado de ojos azules" style="height:150px;display:block">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span class="px" style="font-size:18px;color:var(--accent)">SIRIO</span>
+          <span class="bubble" id="sirioSays">“¿Qué vemos hoy, Max?”</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="px">MIS APPS</h2>
+    <div class="grid" id="apps" style="grid-template-columns:repeat(6,minmax(0,1fr))"></div>
+  </section>
+
+  <section>
+    <h2 class="px">ACCESOS</h2>
+    <div class="grid" id="shorts" style="grid-template-columns:repeat(4,minmax(0,1fr))"></div>
+  </section>
+
+  <footer class="px"><span>◀ ▶ MOVERSE</span><span>OK ABRIR</span><span>HOME SIEMPRE VUELVE AQUÍ</span></footer>
+
+  <div id="all">
+    <span class="px" style="font-size:30px;color:var(--accent)">TODAS LAS APPS</span>
+    <div class="grid" id="allGrid"></div>
+    <footer class="px"><span>ATRÁS PARA VOLVER</span></footer>
+  </div>
+</div>
+
+<script>
+// ===== PERSONALIZA AQUÍ =====
+var USER_NAME = 'Max';            // tu nombre para el saludo
+var MISSION = 'Grabar el video del Fire TV'; // texto de la misión del día
+// ===== Tus apps =====
+var APPS = [
+  {name:'YouTube',     mono:'YT', color:'#F26B5B', pkg:'com.amazon.firetv.youtube'},
+  {name:'Netflix',     mono:'N',  color:'#F26B5B', pkg:'com.netflix.ninja'},
+  {name:'Prime Video', mono:'PV', color:'#6FB7F2', pkg:'com.amazon.avod'},
+  {name:'Spotify',     mono:'SP', color:'#7FD3A0', pkg:'com.spotify.tv.android'},
+  {name:'Disney+',     mono:'D+', color:'#9FA8F5', pkg:'com.disney.disneyplus'},
+  {name:'Todas',       mono:'+',  color:'#E2B44B', action:'all'}
+];
+var SHORTS = [
+  {name:'Mi canal', sub:'PROCASTIA en YouTube', action:'channel'},
+  {name:'Todas las apps', sub:'Lo que tienes instalado', action:'all'},
+  {name:'Proxi', sub:'Próximamente: control por voz', action:'proxi'},
+  {name:'Ajustes', sub:'Configuración del Fire TV', action:'settings'}
+];
+var CHANNEL_URL = 'https://www.youtube.com/results?search_query=PROCASTIA'; // pon aquí el link de tu canal
+
+var A = window.Android || {openApp:function(p){console.log('open',p)},openUrl:function(u){console.log(u)},openSettings:function(){},listApps:function(){return '[]'}};
+
+function el(tag, cls, html){var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e;}
+
+var rows = [[],[]], allRow = [], r = 0, c = 0, inAll = false, ac = 0;
+
+APPS.forEach(function(a){
+  var b = el('button','nav tile','<span class="m px" style="color:'+a.color+'">'+a.mono+'</span><span class="n">'+a.name+'</span>');
+  b.onclick = function(){ run(a); };
+  document.getElementById('apps').appendChild(b); rows[0].push(b);
+});
+SHORTS.forEach(function(s){
+  var b = el('button','nav short','<b>'+s.name+'</b><span>'+s.sub+'</span>');
+  b.onclick = function(){ run(s); };
+  document.getElementById('shorts').appendChild(b); rows[1].push(b);
+});
+
+function say(t){ document.getElementById('sirioSays').textContent = '“'+t+'”'; }
+
+function run(item){
+  if (item.pkg) { say('¡A ver '+item.name+'!'); A.openApp(item.pkg); return; }
+  if (item.action==='all') return openAll();
+  if (item.action==='channel') return A.openUrl(CHANNEL_URL);
+  if (item.action==='settings') return A.openSettings();
+  if (item.action==='proxi') return say('Proxi está en entrenamiento… miau.');
+}
+
+function openAll(){
+  var g = document.getElementById('allGrid'); g.innerHTML=''; allRow=[];
+  var list = []; try { list = JSON.parse(A.listApps()); } catch(e){}
+  list.sort(function(x,y){return x.name.localeCompare(y.name)});
+  list.forEach(function(a){
+    var b = el('button','nav',a.name); b.onclick=function(){A.openApp(a.pkg)};
+    g.appendChild(b); allRow.push(b);
+  });
+  document.getElementById('all').classList.add('open'); inAll = true; ac = 0; paint();
+}
+function closeAll(){ document.getElementById('all').classList.remove('open'); inAll = false; paint(); }
+
+function paint(){
+  document.querySelectorAll('.nav.focus').forEach(function(e){e.classList.remove('focus')});
+  var t = inAll ? allRow[ac] : rows[r][c];
+  if (t) { t.classList.add('focus'); t.focus({preventScroll:true}); }
+}
+
+document.addEventListener('keydown', function(e){
+  var k = e.key;
+  if (inAll) {
+    var cols = 5;
+    if (k==='ArrowRight') ac = Math.min(ac+1, allRow.length-1);
+    else if (k==='ArrowLeft') ac = Math.max(ac-1, 0);
+    else if (k==='ArrowDown') ac = Math.min(ac+cols, allRow.length-1);
+    else if (k==='ArrowUp') ac = Math.max(ac-cols, 0);
+    else if (k==='Enter') { allRow[ac] && allRow[ac].click(); }
+    else if (k==='Escape' || k==='Backspace' || k==='GoBack') closeAll();
+    else return;
+    e.preventDefault(); paint(); return;
+  }
+  if (k==='ArrowRight') c = Math.min(c+1, rows[r].length-1);
+  else if (k==='ArrowLeft') c = Math.max(c-1, 0);
+  else if (k==='ArrowDown' && r<rows.length-1) { c = Math.round(c*(rows[r+1].length-1)/(rows[r].length-1)); r++; }
+  else if (k==='ArrowUp' && r>0) { c = Math.round(c*(rows[r-1].length-1)/(rows[r].length-1)); r--; }
+  else if (k==='Enter') { rows[r][c].click(); }
+  else return;
+  e.preventDefault(); paint();
+});
+
+window.remoteKey = function(b){
+  if (b==='home') return window.onHome();
+  if (b==='back') return window.onBack();
+  var map = {up:'ArrowUp',down:'ArrowDown',left:'ArrowLeft',right:'ArrowRight',ok:'Enter'};
+  if (map[b]) document.dispatchEvent(new KeyboardEvent('keydown',{key:map[b]}));
+};
+window.onBack = function(){ if (inAll) closeAll(); };
+window.onHome = function(){ if (inAll) closeAll(); r=0; c=0; paint(); };
+
+document.getElementById('mission').textContent = MISSION;
+function tick(){
+  var d = new Date(), h = d.getHours(), m = d.getMinutes();
+  document.getElementById('clock').textContent = ((h%12)||12)+':'+(m<10?'0':'')+m+(h<12?' AM':' PM');
+  document.getElementById('greet').textContent = (h<12?'Buenos días':h<19?'Buenas tardes':'Buenas noches')+', '+USER_NAME;
+}
+function fit(){ var s = Math.min(innerWidth/1920, innerHeight/1080); document.getElementById('stage').style.transform='scale('+s+')'; }
+addEventListener('resize', fit); fit(); tick(); setInterval(tick, 15000); paint();
+</script>
+</body>
+</html>

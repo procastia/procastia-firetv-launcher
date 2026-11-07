@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PROCASTIA">
+<meta name="theme-color" content="#0B1712">
+<link rel="apple-touch-icon" href="/icon.png">
+<link rel="manifest" href="/manifest.json">
+<title>PROCASTIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Silkscreen&display=swap" rel="stylesheet">
+<style>
+:root{--a:#E2B44B;--bg:#0B1712;--c:#12241B;--l:#2E4A3B}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;background:var(--bg);color:#EDEFE9;font-family:Inter,sans-serif}
+.w{max-width:400px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 20px) 20px calc(env(safe-area-inset-bottom) + 24px);display:flex;flex-direction:column;gap:20px;min-height:100vh}
+.px{font-family:Silkscreen,monospace}
+header{display:flex;align-items:center;gap:14px}
+header img{height:64px}
+header b{font-family:Silkscreen,monospace;font-size:20px;color:var(--a);font-weight:400;letter-spacing:1px}
+header span{display:block;font-size:13px;color:#8C9A90}
+button{font:inherit;color:inherit;background:var(--c);border:3px solid var(--l);border-radius:0;font-size:18px;font-weight:700;min-height:56px;cursor:pointer;touch-action:manipulation}
+button:active{background:var(--l);border-color:var(--a);transform:scale(.97)}
+.home{background:var(--a);color:var(--bg);border-color:var(--a);font-family:Silkscreen,monospace;font-size:26px;min-height:84px}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,80px);gap:8px}
+.pad button{font-size:28px}
+.ok{background:#1E3328;border-color:var(--a);color:var(--a);font-family:Silkscreen,monospace}
+.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+#st{font-size:13px;color:#8C9A90;text-align:center;min-height:16px}
+h2{margin:4px 0 -8px;font-family:Silkscreen,monospace;font-weight:400;font-size:14px;color:#8C9A90;letter-spacing:2px}
+</style>
+</head>
+<body>
+<div class="w">
+  <header>
+    <img src="/sirio.png" alt="Sirio">
+    <div><b>PROCASTIA REMOTE</b><span>Fire TV · sin anuncios</span></div>
+  </header>
+
+  <button class="home" data-b="home">HOME</button>
+
+  <div class="pad">
+    <span></span><button data-b="up" aria-label="Arriba">▲</button><span></span>
+    <button data-b="left" aria-label="Izquierda">◀</button><button data-b="ok" class="ok">OK</button><button data-b="right" aria-label="Derecha">▶</button>
+    <span></span><button data-b="down" aria-label="Abajo">▼</button><span></span>
+  </div>
+
+  <button data-b="back">↩ Atrás</button>
+
+  <h2>APPS</h2>
+  <div class="row">
+    <button data-b="app" data-pkg="com.amazon.firetv.youtube">YouTube</button>
+    <button data-b="app" data-pkg="com.netflix.ninja">Netflix</button>
+    <button data-b="app" data-pkg="com.amazon.avod">Prime Video</button>
+    <button data-b="app" data-pkg="com.spotify.tv.android">Spotify</button>
+  </div>
+
+  <div id="st"></div>
+</div>
+<script>
+var st = document.getElementById('st');
+document.querySelectorAll('button[data-b]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    if (navigator.vibrate) navigator.vibrate(15);
+    var url = '/k?b=' + btn.dataset.b + (btn.dataset.pkg ? '&pkg=' + encodeURIComponent(btn.dataset.pkg) : '');
+    fetch(url).then(function(r){ return r.text(); })
+      .then(function(t){ st.textContent = t; })
+      .catch(function(){ st.textContent = 'No encuentro el Fire TV'; });
+  });
+});
+</script>
+</body>
+</html>
